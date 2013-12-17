@@ -26,4 +26,25 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#ifndef _OUTPUT_H
+#define _OUTPUT_H
 
+#if ARDUINO >= 100
+# include <Arduino.h>
+#else
+# include <WProgram.h>
+#endif
+
+class Output {
+    private:
+        uint8_t pin;
+        uint8_t currentState;
+    public:
+        Output(uint8_t pin, uint8_t init = LOW);
+        void begin();
+        void high();
+        void low();
+        void toggle();
+        uint8_t getState();
+};
+#endif

@@ -26,4 +26,33 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#include <Output.h>
 
+Output::Output(uint8_t p, uint8_t def) {
+    currentState = def;
+    pin = p;
+}
+
+void Output::begin() {
+    pinMode(pin, OUTPUT);
+    digitalWrite(pin, currentState);
+}
+
+void Output::high() {
+    currentState = HIGH;
+    digitalWrite(pin, currentState);
+}
+
+void Output::low() {
+    currentState = LOW;
+    digitalWrite(pin, currentState);
+}
+
+void Output::toggle() {
+    currentState = !currentState;
+    digitalWrite(pin, currentState);
+}
+
+uint8_t Output::getState() {
+    return currentState;
+}
