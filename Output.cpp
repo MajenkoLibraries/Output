@@ -31,40 +31,48 @@
 #include <Output.h>
 
 Output::Output(uint8_t p, uint8_t def) {
-    currentState = def;
-    pin = p;
+    _state = def;
+    _pin = p;
     _cbOnHigh = NULL;
     _cbOnLow = NULL;
     _cbOnChange = NULL;
 }
 
 void Output::begin() {
-    pinMode(pin, OUTPUT);
-    digitalWrite(pin, currentState);
+    pinMode(_pin, OUTPUT);
+    digitalWrite(_pin, _state);
 }
 
 void Output::high() {
-    if (currentState == HIGH) return;
-    currentState = HIGH;
-    digitalWrite(pin, currentState);
+    if (_state == HIGH) return;
+    _state = HIGH;
+    digitalWrite(_pin, _state);
     callback();
 }
 
 void Output::low() {
-    if (currentState == LOW) return;
-    currentState = LOW;
-    digitalWrite(pin, currentState);
+    if (_state == LOW) return;
+    _state = LOW;
+    digitalWrite(_pin, _state);
     callback();
 }
 
 void Output::toggle() {
-    currentState = !currentState;
-    digitalWrite(pin, currentState);
+    _state = !_state;
+    digitalWrite(_pin, _state);
+    callback();
+}
+
+void Output::set(uint8_t state) {
+    state = (state != LOW);
+    if (state == _state) return;
+    _state = state;
+    digitalWrite(_pin, _state);
     callback();
 }
 
 uint8_t Output::getState() {
-    return currentState;
+    return _state;
 }
 
 void Output::onHigh(void (*func)(uint8_t)) {
@@ -80,13 +88,13 @@ void Output::onChange(void (*func)(uint8_t)) {
 }
 
 void Output::callback() {
-    if (_cbOnHigh && currentState) {
-        _cbOnHigh(currentState);
+    if (_cbOnHigh && _state) {
+        _cbOnHigh(_state);
     }
-    if (_cbOnLow && !currentState) {
-        _cbOnLow(currentState);
+    if (_cbOnLow && !_state) {
+        _cbOnLow(_state);
     }
     if (_cbOnChange) {
-        _cbOnChange(currentState);
+        _cbOnChange(_state);
     }
 }

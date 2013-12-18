@@ -39,8 +39,8 @@
 
 class Output {
     private:
-        uint8_t pin;
-        uint8_t currentState;
+        uint8_t _pin;
+        uint8_t _state;
         void (*_cbOnHigh)(uint8_t);
         void (*_cbOnLow)(uint8_t);
         void (*_cbOnChange)(uint8_t);
@@ -51,6 +51,7 @@ class Output {
         void high();
         void low();
         void toggle();
+        void set(uint8_t state);
         uint8_t getState();
         void onHigh(void (*func)(uint8_t));
         void onLow(void (*func)(uint8_t));
