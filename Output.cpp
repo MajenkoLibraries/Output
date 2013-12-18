@@ -33,6 +33,9 @@
 Output::Output(uint8_t p, uint8_t def) {
     currentState = def;
     pin = p;
+    _cbOnHigh = NULL;
+    _cbOnLow = NULL;
+    _cbOnChange = NULL;
 }
 
 void Output::begin() {
@@ -41,20 +44,49 @@ void Output::begin() {
 }
 
 void Output::high() {
+    if (currentState == HIGH) return;
     currentState = HIGH;
     digitalWrite(pin, currentState);
+    callback();
 }
 
 void Output::low() {
+    if (currentState == LOW) return;
     currentState = LOW;
     digitalWrite(pin, currentState);
+    callback();
 }
 
 void Output::toggle() {
     currentState = !currentState;
     digitalWrite(pin, currentState);
+    callback();
 }
 
 uint8_t Output::getState() {
     return currentState;
+}
+
+void Output::onHigh(void (*func)(uint8_t)) {
+    _cbOnHigh = func;
+}
+
+void Output::onLow(void (*func)(uint8_t)) {
+    _cbOnLow = func;
+}
+
+void Output::onChange(void (*func)(uint8_t)) {
+    _cbOnChange = func;
+}
+
+void Output::callback() {
+    if (_cbOnHigh && currentState) {
+        _cbOnHigh(currentState);
+    }
+    if (_cbOnLow && !currentState) {
+        _cbOnLow(currentState);
+    }
+    if (_cbOnChange) {
+        _cbOnChange(currentState);
+    }
 }

@@ -41,6 +41,10 @@ class Output {
     private:
         uint8_t pin;
         uint8_t currentState;
+        void (*_cbOnHigh)(uint8_t);
+        void (*_cbOnLow)(uint8_t);
+        void (*_cbOnChange)(uint8_t);
+        void callback();
     public:
         Output(uint8_t pin, uint8_t init = LOW);
         void begin();
@@ -48,5 +52,8 @@ class Output {
         void low();
         void toggle();
         uint8_t getState();
+        void onHigh(void (*func)(uint8_t));
+        void onLow(void (*func)(uint8_t));
+        void onChange(void (*func)(uint8_t));
 };
 #endif
