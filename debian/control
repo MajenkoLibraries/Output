@@ -8,5 +8,6 @@ Standards-Version: 3.9.4
 
 Package: liboutput
 Architecture: all
+Provides: Output.h
 Description: Output library
 
