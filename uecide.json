@@ -1,0 +1,17 @@
+{
+    "name": "Output",
+    "provides": "Output.h",
+    "license": "LICENSE.md",
+    "readme": "README.md",
+    "description": "Output port abstraction",
+    "category": "IO",
+    "subcategory": "Digital",
+    "maintainer": "Matt Jenkins <matt@majenko.co.uk>",
+    "version": "1.0.0",
+    "family": "all",
+    "core": "all",
+    "install": {
+        "Output.cpp": "/",
+        "Output.h": "/"
+    }
+}
